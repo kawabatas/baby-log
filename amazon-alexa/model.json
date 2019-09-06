@@ -1,0 +1,63 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "リクログ",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": [
+                        "使い方",
+                        "ヘルプ"
+                    ]
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": [
+                        "ありがとう",
+                        "終了",
+                        "終わり",
+                        "ストップ"
+                    ]
+                },
+                {
+                    "name": "RegisterPooIntent",
+                    "slots": [],
+                    "samples": [
+                        "うんち"
+                    ]
+                },
+                {
+                    "name": "RegisterPeeIntent",
+                    "slots": [],
+                    "samples": [
+                        "おしっこ"
+                    ]
+                },
+                {
+                    "name": "RegisterPooAndPeeIntent",
+                    "slots": [],
+                    "samples": [
+                        "うんちとおしっこ",
+                        "おしっことうんち"
+                    ]
+                },
+                {
+                    "name": "RegisterMilkIntent",
+                    "slots": [],
+                    "samples": [
+                        "ミルク"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                }
+            ],
+            "types": []
+        }
+    }
+}
