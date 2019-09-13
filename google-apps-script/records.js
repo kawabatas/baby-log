@@ -86,7 +86,8 @@ function getLastMilk() {
   var lastCell = sheet.getRange(lastRow, 1, 1, 4);
   var lastValues = lastCell.getValues();
 
-  var str = lastValues[0][0] + ' ' + lastValues[0][1];
+  var date = new Date(lastValues[0][0] + ' ' + lastValues[0][1]);
+  var str = date.getMonth()+1 + '月' + date.getDate() + '日 ' + date.getHours() + '時' + date.getMinutes() + '分';
   if (lastValues[0][3]) {
     str = str + ' で、' + lastValues[0][3] + 'ミリリットル'
   }
