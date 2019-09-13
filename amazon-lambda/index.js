@@ -84,6 +84,22 @@ const RegisterMilkIntentHandler = {
         });
   }
 };
+const GetLastMilkIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'GetLastMilkIntent';
+    },
+    handle(handlerInput) {
+        return gasAccessor.executeFunction('getLastMilk').then(result => {
+            const speakOutput = '前回のミルクは' + result + 'です。';
+            return handlerInput.responseBuilder
+                .speak(speakOutput)
+                .getResponse();
+        }).catch(err => {
+            console.log(err);
+        });
+  }
+};
 const HelpIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
@@ -168,6 +184,7 @@ exports.handler = Alexa.SkillBuilders.custom()
         RegisterPeeIntentHandler,
         RegisterPooAndPeeIntentHandler,
         RegisterMilkIntentHandler,
+        GetLastMilkIntentHandler,
         HelpIntentHandler,
         CancelAndStopIntentHandler,
         SessionEndedRequestHandler,

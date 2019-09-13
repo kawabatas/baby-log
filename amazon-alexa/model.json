@@ -60,6 +60,21 @@
                     ]
                 },
                 {
+                    "name": "GetLastMilkIntent",
+                    "slots": [],
+                    "samples": [
+                        "前回のミルク",
+                        "前のミルク",
+                        "最後のミルク",
+                        "前回のミルクいつ",
+                        "前のミルクいつ",
+                        "最後のミルクいつ",
+                        "前回のミルク何時",
+                        "前のミルク何時",
+                        "最後のミルク何時"
+                    ]
+                },
+                {
                     "name": "AMAZON.NavigateHomeIntent",
                     "samples": []
                 }

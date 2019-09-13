@@ -78,6 +78,25 @@ function registerMilk(volume) {
   }
 }
 
+function getLastMilk() {
+  var startTime = Date.now();
+
+  var sheet = records.getSheet(TYPE.MILK);
+  var lastRow = sheet.getLastRow();
+  var lastCell = sheet.getRange(lastRow, 1, 1, 4);
+  var lastValues = lastCell.getValues();
+
+  var str = lastValues[0][0] + ' ' + lastValues[0][1];
+  if (lastValues[0][3]) {
+    str = str + ' で、' + lastValues[0][3] + 'ミリリットル'
+  }
+
+  var executionTime = Date.now() - startTime;
+  Logger.log('getLastMilk took ' + executionTime + ' ms');
+
+  return str;
+}
+
 var records = {};
 
 records.getSheet = function (type) {
