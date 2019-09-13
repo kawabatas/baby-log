@@ -47,9 +47,16 @@
                 },
                 {
                     "name": "RegisterMilkIntent",
-                    "slots": [],
+                    "slots": [
+                        {
+                            "name": "volume",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
                     "samples": [
-                        "ミルク"
+                        "ミルク",
+                        "ミルク {volume}",
+                        "ミルクを {volume}"
                     ]
                 },
                 {

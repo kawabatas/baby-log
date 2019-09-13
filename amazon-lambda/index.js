@@ -22,58 +22,66 @@ const RegisterPooIntentHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'RegisterPooIntent';
     },
     handle(handlerInput) {
-        gasAccessor.executeFunction('registerPoo', function (result) {
-            console.log(`IntentHandler executed gasAccessor.executeFunction registerPoo.`);
-        }.bind(this));
-        const speakOutput = 'うんちを記録しました。';
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .getResponse();
+        return gasAccessor.executeFunction('registerPoo').then(result => {
+            const speakOutput = 'うんちを記録しました。';
+            return handlerInput.responseBuilder
+                .speak(speakOutput)
+                .getResponse();
+        }).catch(err => {
+            console.log(err);
+        });
     }
 };
 const RegisterPeeIntentHandler = {
-  canHandle(handlerInput) {
-      return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-          && Alexa.getIntentName(handlerInput.requestEnvelope) === 'RegisterPeeIntent';
-  },
-  handle(handlerInput) {
-      gasAccessor.executeFunction('registerPee', function (result) {
-          console.log(`IntentHandler executed gasAccessor.executeFunction registerPee.`);
-      }.bind(this));
-      const speakOutput = 'おしっこを記録しました。';
-      return handlerInput.responseBuilder
-          .speak(speakOutput)
-          .getResponse();
-  }
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'RegisterPeeIntent';
+    },
+    handle(handlerInput) {
+        return gasAccessor.executeFunction('registerPee').then(result => {
+            const speakOutput = 'おしっこを記録しました。';
+            return handlerInput.responseBuilder
+                .speak(speakOutput)
+                .getResponse();
+        }).catch(err => {
+            console.log(err);
+        });
+    }
 };
 const RegisterPooAndPeeIntentHandler = {
-  canHandle(handlerInput) {
-      return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-          && Alexa.getIntentName(handlerInput.requestEnvelope) === 'RegisterPooAndPeeIntent';
-  },
-  handle(handlerInput) {
-      gasAccessor.executeFunction('registerPooAndPee', function (result) {
-          console.log(`IntentHandler executed gasAccessor.executeFunction registerPooAndPee.`);
-      }.bind(this));
-      const speakOutput = 'うんちとおしっこを記録しました。';
-      return handlerInput.responseBuilder
-          .speak(speakOutput)
-          .getResponse();
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'RegisterPooAndPeeIntent';
+    },
+    handle(handlerInput) {
+        return gasAccessor.executeFunction('registerPooAndPee').then(result => {
+            const speakOutput = 'うんちとおしっこを記録しました。';
+            return handlerInput.responseBuilder
+                .speak(speakOutput)
+                .getResponse();
+        }).catch(err => {
+            console.log(err);
+        });
   }
 };
 const RegisterMilkIntentHandler = {
-  canHandle(handlerInput) {
-      return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-          && Alexa.getIntentName(handlerInput.requestEnvelope) === 'RegisterMilkIntent';
-  },
-  handle(handlerInput) {
-      gasAccessor.executeFunction('registerMilk', function (result) {
-          console.log(`IntentHandler executed gasAccessor.executeFunction registerMilk.`);
-      }.bind(this));
-      const speakOutput = 'ミルクを記録しました。';
-      return handlerInput.responseBuilder
-          .speak(speakOutput)
-          .getResponse();
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'RegisterMilkIntent';
+    },
+    handle(handlerInput) {
+        const volume = handlerInput.requestEnvelope.request.intent.slots.volume.value;
+        return gasAccessor.executeFunction('registerMilk', volume).then(result => {
+            let speakOutput = 'ミルクを記録しました。';
+            if (result) {
+                speakOutput = 'ミルクを' + result + '記録しました。';
+            }
+            return handlerInput.responseBuilder
+                .speak(speakOutput)
+                .getResponse();
+        }).catch(err => {
+            console.log(err);
+        });
   }
 };
 const HelpIntentHandler = {

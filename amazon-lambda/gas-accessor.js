@@ -10,9 +10,7 @@ const DEV_MODE = process.env['DEV_MODE'] ? /^true$/i.test(process.env['DEV_MODE'
 
 const gasAccessor = {};
 
-gasAccessor.executeFunction = function (functionName, callback, opt_parameter) {
-    var startTime = Date.now();
-
+gasAccessor.executeFunction = function (functionName, opt_parameter) {
     console.log('executeFunction started [functionName=' + functionName + ', parameter=' + opt_parameter);
     const auth = new OAuth2(CLIENT_ID, CLIENT_SECRET);
     auth.setCredentials({
@@ -20,27 +18,23 @@ gasAccessor.executeFunction = function (functionName, callback, opt_parameter) {
         refresh_token: REFRESH_TOKEN
     });
     const script = google.script('v1');
-    script.scripts.run({
-        auth: auth,
-        scriptId: SCRIPT_ID,
-        resource: {
-            function: functionName,
-            parameters: [opt_parameter],
-            devMode: DEV_MODE
-        }
-    }, (err, result) => {
-        var turnAroundTime = Date.now() - startTime;
-        console.log(functionName + '  API execution took ' + turnAroundTime + ' ms');
-        if (err || result.data.error) {
-            console.error(JSON.stringify(err));
-            console.error(JSON.stringify(result.data.error));
-            throw 'API Execution Failure';
-        } else {
-            console.log(JSON.stringify(result.data.response));
-            callback(result.data.response.result);
-            var callbackExecutionTime = Date.now() - startTime - turnAroundTime;
-            console.log('callback execution took ' + callbackExecutionTime + ' ms');
-        }
+    return new Promise((resolve, reject) => {
+        script.scripts.run({
+            auth: auth,
+            scriptId: SCRIPT_ID,
+            resource: {
+                function: functionName,
+                parameters: [opt_parameter],
+                devMode: DEV_MODE
+            }
+        }, (err, result) => {
+            if (err || result.data.error) {
+                console.log(err);
+                reject(new Error(err));
+            } else {
+                resolve(result.data.response.result);
+            }
+        });
     });
 };
 

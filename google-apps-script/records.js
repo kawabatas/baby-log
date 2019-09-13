@@ -65,29 +65,48 @@ function registerPooAndPee() {
   Logger.log('registerPooAndPee took ' + executionTime + ' ms');
 }
 
-function registerMilk() {
+function registerMilk(volume) {
   var startTime = Date.now();
 
-  records.appendJournalRecord(new Date(), TYPE.MILK);
+  records.appendJournalRecord(new Date(), TYPE.MILK, volume || 0);
 
   var executionTime = Date.now() - startTime;
   Logger.log('registerMilk took ' + executionTime + ' ms');
+
+  if (volume) {
+    return volume;
+  }
 }
 
 var records = {};
 
-records.getSheet = function () {
-  if (!records.sheet) {
-    records.sheet = SpreadsheetApp.getActive().getSheetByName('records');
+records.getSheet = function (type) {
+  if (type === TYPE.POO || type === TYPE.PEE) {
+    if (!records.sheetPooPee) {
+      records.sheetPooPee = SpreadsheetApp.getActive().getSheetByName('うんち・おしっこ');
+    }
+    return records.sheetPooPee;
   }
-  return records.sheet;
+  if (type === TYPE.MILK) {
+    if (!records.sheetMilk) {
+      records.sheetMilk = SpreadsheetApp.getActive().getSheetByName('ミルク');
+    }
+    return records.sheetMilk;
+  }
+  if (type === TYPE.HEALTH) {
+    if (!records.sheetHealth) {
+      records.sheetHealth = SpreadsheetApp.getActive().getSheetByName('体調');
+    }
+    return records.sheetHealth;
+  }
+  Logger.log('getSheet error...');
 }
 
 records.appendJournalRecord = function (date, type, memo) {
   var startTime = Date.now();
   Logger.log('appendJournalRecord started');
 
-  records.getSheet().appendRow(records.createJournalRecordRowContent(date, type, memo));
+  records.getSheet(type).appendRow(records.createJournalRecordRowContent(date, type, memo));
 
   var executionTime = Date.now() - startTime;
   Logger.log('appendJournalRecord took ' + executionTime + ' ms');
